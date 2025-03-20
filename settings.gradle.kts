@@ -6,5 +6,5 @@ dependencyResolutionManagement {
     }
 }
 
-include(":ufi")
-include(":ufi:asn1")
+//include(":ufi")
+//include(":ufi:asn1")
