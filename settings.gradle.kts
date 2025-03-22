@@ -6,5 +6,6 @@ dependencyResolutionManagement {
     }
 }
 
+include(":svr")
 //include(":ufi")
 //include(":ufi:asn1")
