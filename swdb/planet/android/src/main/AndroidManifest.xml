@@ -6,7 +6,7 @@
         <activity
             android:name="g.sw.PlanetActivity"
             android:exported="true"
-            android:theme="@style/Theme.NH4">
+            android:theme="@style/Theme.NH4.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
