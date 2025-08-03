@@ -1,11 +1,22 @@
 rootProject.name = "NH4"
 
-dependencyResolutionManagement {
+pluginManagement {
     repositories {
         mavenCentral()
+        google {
+            content {
+                includeGroupByRegex("com\\.(android|google).*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
     }
 }
 
-//include(":svr")
-//include(":ufi")
-//include(":ufi:asn1")
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        google()
+    }
+}
+
+include(":swdb:planet:android")
