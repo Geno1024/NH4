@@ -6,6 +6,11 @@ plugins {
     kotlin("android")
 }
 
+dependencies {
+    implementation("androidx.drawerlayout", "drawerlayout", "1.2.0")
+    implementation("androidx.navigation", "navigation-ui-ktx", "2.9.3")
+}
+
 // <editor-fold desc="Build Count">
 val run = BuildCount(project, "run")
 
