@@ -34,7 +34,18 @@ tasks.withType<PackageAndroidArtifact> {
 }
 // </editor-fold>
 
+kotlin {
+    jvmToolchain(21)
+}
+
 android {
     compileSdk = 36
     namespace = "g.sw.planet"
+    defaultConfig {
+        applicationId = "g.sw.planet"
+        minSdk = 21
+        targetSdk = 36
+        versionCode = android.read() + 1
+        versionName = "0.0.1.$versionCode"
+    }
 }
