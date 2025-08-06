@@ -25,7 +25,9 @@ class PlanetActivity : AppCompatActivity()
         val navView = findViewById<NavigationView>(R.id.navigation_view)
         val navController = findNavController(R.id.navigation_host_fragment_content)
         appBarConfiguration = AppBarConfiguration(
-            setOf(),
+            setOf(
+                R.id.nav_sample
+            ),
             drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
