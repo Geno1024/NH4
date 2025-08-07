@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name" translatable="false">Planet</string>
     <string name="fragment_sample">Sample</string>
+    <string name="fragment_server">Server</string>
 </resources>

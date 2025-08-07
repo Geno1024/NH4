@@ -26,7 +26,8 @@ class PlanetActivity : AppCompatActivity()
         val navController = findNavController(R.id.navigation_host_fragment_content)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_sample
+                R.id.nav_sample,
+                R.id.nav_server
             ),
             drawerLayout
         )
