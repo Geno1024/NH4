@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.NH4" parent="Theme.AppCompat"/>
-    <style name="Theme.NH4.NoActionBar">
+    <style name="Theme.NH4" parent="Theme.MaterialComponents.DayNight"/>
+    <style name="Theme.NH4.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
