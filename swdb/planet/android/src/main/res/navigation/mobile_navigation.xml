@@ -6,12 +6,12 @@
     app:startDestination="@id/nav_sample">
     <fragment
         android:id="@+id/nav_sample"
-        android:name="g.sw.planet.SampleFragment"
+        android:name="g.sw.planet.frags.Sample"
         android:label="@string/fragment_sample"
         tools:layout="@layout/fragment_sample"/>
     <fragment
         android:id="@+id/nav_server"
-        android:name="g.sw.planet.ServerFragment"
+        android:name="g.sw.planet.frags.Server"
         android:label="@string/fragment_server"
         tools:layout="@layout/fragment_server"/>
 </navigation>

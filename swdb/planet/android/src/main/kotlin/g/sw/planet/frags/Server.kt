@@ -1,4 +1,4 @@
-package g.sw.planet
+package g.sw.planet.frags
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -10,7 +10,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
-class ServerFragment : Fragment()
+import g.sw.planet.R
+
+class Server : Fragment()
 {
     val SP_SERVER = "server"
 
