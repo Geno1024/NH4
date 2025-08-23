@@ -3,4 +3,6 @@
     <string name="fragment_sample">示例</string>
     <string name="fragment_server">糊务器</string>
     <string name="server_saved">糊务器已保存。</string>
+    <string name="username">账号</string>
+    <string name="password">密码</string>
 </resources>

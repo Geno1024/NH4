@@ -5,17 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/fragment_padding">
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/server_input"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/server_star_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/fragment_server"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/server_star"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/server_username_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/username"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/server_star_wrapper">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/server_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/server_password_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/server_username_wrapper">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/server_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/server_input_confirm"
         android:text="@android:string/ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/server_input"/>
+        app:layout_constraintTop_toBottomOf="@id/server_password_wrapper"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

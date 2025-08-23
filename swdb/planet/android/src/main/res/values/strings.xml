@@ -4,4 +4,6 @@
     <string name="fragment_sample">Sample</string>
     <string name="fragment_server">Server</string>
     <string name="server_saved">Server saved.</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 </resources>
