@@ -20,3 +20,4 @@ dependencyResolutionManagement {
 }
 
 include(":swdb:planet:android")
+include(":swdb:star")
