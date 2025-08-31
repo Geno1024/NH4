@@ -5,6 +5,10 @@ plugins {
     kotlin("jvm")
 }
 
+dependencies {
+    implementation("org.jetbrains.kotlin", "kotlin-reflect", kotlin.coreLibrariesVersion)
+}
+
 // <editor-fold desc="Build Count">
 val run = BuildCount(project, "run")
 
@@ -25,10 +29,10 @@ val jar = tasks.register("jarCount") {
 }
 
 tasks.withType<JavaCompile> {
-    dependsOn(run)
+    dependsOn(runCount)
 }
 
 tasks.withType<Jar> {
-    dependsOn(jar)
+    dependsOn(jarCount)
 }
 // </editor-fold>
