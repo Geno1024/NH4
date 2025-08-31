@@ -1,7 +1,5 @@
 package g.sw.protocol.ds
 
-import kotlin.reflect.KClass
-
 interface IO
 {
     fun toMap(): Map<String, Any> = javaClass.declaredFields.associate { field ->
@@ -10,7 +8,7 @@ interface IO
 
     companion object
     {
-        fun fromMap(clazz: KClass<out IO>, value: Map<String, Any>): IO = with(clazz.constructors.first {
+        inline fun <reified T : IO> fromMap(value: Map<String, Any>): T = with(T::class.constructors.first {
             it.name == "<init>"
         }) {
             call(
