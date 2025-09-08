@@ -4,6 +4,13 @@ import java.math.BigDecimal
 
 data class BNumber(var num: BigDecimal) : Number(), IB<BNumber>
 {
+    constructor(byte: Byte) : this(BigDecimal.valueOf(byte.toLong()))
+    constructor(double: Double) : this(BigDecimal.valueOf(double))
+    constructor(float: Float) : this(BigDecimal.valueOf(float.toDouble()))
+    constructor(int: Int) : this(int.toBigDecimal())
+    constructor(long: Long) : this(long.toBigDecimal())
+    constructor(short: Short) : this(BigDecimal.valueOf(short.toLong()))
+
     override fun toByte(): Byte = num.toByte()
 
     override fun toDouble(): Double = num.toDouble()

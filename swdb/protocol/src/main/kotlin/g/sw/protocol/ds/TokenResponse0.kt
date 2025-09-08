@@ -1,19 +1,21 @@
 package g.sw.protocol.ds
 
+import g.sw.protocol.box.BNumber
+import g.sw.protocol.box.BString
 import java.security.MessageDigest
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
 data class TokenResponse0(
-    val username: String,
-    val requestTimestampSecond: Long,
-    val response: String
-) : IO
+    val username: BString,
+    val requestTimestampSecond: BNumber,
+    val response: BString
+) : IDS
 {
     companion object
     {
         fun fromRequest0(request: TokenRequest0, username: String, password: String) = TokenResponse0(
-            username = username,
+            username = BString(username),
             requestTimestampSecond = request.timestampSecond,
             response = with (Mac.getInstance("HmacSHA256")) {
                 init(
@@ -23,16 +25,16 @@ data class TokenResponse0(
                         "HmacSHA256"
                     )
                 )
-                doFinal(request.nonce.toByteArray()).toHexString()
+                BString(doFinal(request.nonce.str.toByteArray()).toHexString())
             }
         )
 
         fun verify(response: TokenResponse0, request: TokenRequest0, username: String, hashedPassword: String) = response == TokenResponse0(
-            username = username,
+            username = BString(username),
             requestTimestampSecond = request.timestampSecond,
             response = with (Mac.getInstance("HmacSHA256")) {
                 init(SecretKeySpec(hashedPassword.hexToByteArray(), "HmacSHA256"))
-                doFinal(request.nonce.toByteArray()).toHexString()
+                BString(doFinal(request.nonce.str.toByteArray()).toHexString())
             },
         )
     }
