@@ -23,12 +23,14 @@ data class BNumber(var num: BigDecimal) : Number(), IB<BNumber>
 
     override fun toShort(): Short = num.toShort()
 
+    override fun type(): Char = 'n'
+
     override fun deserialize(byteArray: ByteArray): BNumber = BNumber.deserialize(byteArray)
 
-    override fun serialize(ib: BNumber): ByteArray
+    override fun serialize(): ByteArray
     {
         val lengthOfBodyLength = "0010".toByteArray()
-        val body = ib.num.toPlainString().toByteArray()
+        val body = num.toPlainString().toByteArray()
         val bodyLength = body.size.toString().padStart(10, '0').toByteArray()
         return lengthOfBodyLength + bodyLength + body
     }

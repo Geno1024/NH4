@@ -2,12 +2,14 @@ package g.sw.protocol.box
 
 data class BString(var str: String = "") : CharSequence, IB<BString>
 {
+    override fun type(): Char = 's'
+
     override fun deserialize(byteArray: ByteArray): BString = BString.deserialize(byteArray)
 
-    override fun serialize(ib: BString): ByteArray
+    override fun serialize(): ByteArray
     {
         val lengthOfBodyLength = "0010".toByteArray()
-        val body = ib.str.toByteArray()
+        val body = str.toByteArray()
         val bodyLength = body.size.toString().padStart(10, '0').toByteArray()
         return lengthOfBodyLength + bodyLength + body
     }

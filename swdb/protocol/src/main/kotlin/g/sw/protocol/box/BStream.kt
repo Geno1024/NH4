@@ -2,12 +2,14 @@ package g.sw.protocol.box
 
 data class BStream(var arr: ByteArray) : IB<BStream>
 {
+    override fun type(): Char = 'b'
+
     override fun deserialize(byteArray: ByteArray): BStream = BStream.deserialize(byteArray)
 
-    override fun serialize(ib: BStream): ByteArray
+    override fun serialize(): ByteArray
     {
         val lengthOfBodyLength = "0010".toByteArray()
-        val body = ib.arr
+        val body = arr
         val bodyLength = body.size.toString().padStart(10, '0').toByteArray()
         return lengthOfBodyLength + bodyLength + body
     }

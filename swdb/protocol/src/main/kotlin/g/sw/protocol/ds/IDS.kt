@@ -4,9 +4,11 @@ import g.sw.protocol.box.IB
 
 interface IDS
 {
-    fun toMap(): Map<String, IB<*>> = javaClass.declaredFields.associate { field ->
-        field.name to field.apply { isAccessible = true }.get(this) as IB<*>
-    }
+    fun toMap(): Map<String, IB<*>> = javaClass.declaredFields
+        .filterNot { it.name == "Companion" }
+        .associate { field ->
+            field.name to field.apply { isAccessible = true }.get(this) as IB<*>
+        }
 
     companion object
     {
