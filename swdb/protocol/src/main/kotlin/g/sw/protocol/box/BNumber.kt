@@ -1,5 +1,6 @@
 package g.sw.protocol.box
 
+import java.io.ByteArrayInputStream
 import java.math.BigDecimal
 
 data class BNumber(var num: BigDecimal) : Number(), IB<BNumber>
@@ -35,6 +36,8 @@ data class BNumber(var num: BigDecimal) : Number(), IB<BNumber>
         return lengthOfBodyLength + bodyLength + body
     }
 
+    override fun serSize(): Int = 4 + 10 + num.toPlainString().toByteArray().size
+
     companion object
     {
         fun deserialize(byteArray: ByteArray): BNumber
@@ -42,6 +45,14 @@ data class BNumber(var num: BigDecimal) : Number(), IB<BNumber>
             val lengthOfBodyLength = byteArray.copyOfRange(0, 4).decodeToString().toInt()
             val bodyLength = byteArray.copyOfRange(4, 4 + lengthOfBodyLength).decodeToString().toInt()
             val body = byteArray.copyOfRange(4 + lengthOfBodyLength, 4 + lengthOfBodyLength + bodyLength).decodeToString().toBigDecimal()
+            return BNumber(body)
+        }
+
+        fun deserialize(bais: ByteArrayInputStream): BNumber
+        {
+            val lengthOfBodyLength = bais.readNBytes(4).decodeToString().toInt()
+            val bodyLength = bais.readNBytes(lengthOfBodyLength).decodeToString().toInt()
+            val body = bais.readNBytes(bodyLength).decodeToString().toBigDecimal()
             return BNumber(body)
         }
     }

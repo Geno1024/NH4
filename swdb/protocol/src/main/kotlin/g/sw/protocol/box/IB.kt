@@ -7,4 +7,6 @@ interface IB<T> where T : IB<T>
     fun deserialize(byteArray: ByteArray): T
 
     fun serialize(): ByteArray
+
+    fun serSize(): Int
 }

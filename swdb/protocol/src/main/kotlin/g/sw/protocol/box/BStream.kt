@@ -1,5 +1,7 @@
 package g.sw.protocol.box
 
+import java.io.ByteArrayInputStream
+
 data class BStream(var arr: ByteArray) : IB<BStream>
 {
     override fun type(): Char = 'b'
@@ -14,6 +16,8 @@ data class BStream(var arr: ByteArray) : IB<BStream>
         return lengthOfBodyLength + bodyLength + body
     }
 
+    override fun serSize(): Int = 4 + 10 + arr.size
+
     companion object
     {
         fun deserialize(arr: ByteArray): BStream
@@ -21,6 +25,14 @@ data class BStream(var arr: ByteArray) : IB<BStream>
             val lengthOfBodyLength = arr.copyOfRange(0, 4).decodeToString().toInt()
             val bodyLength = arr.copyOfRange(4, 4 + lengthOfBodyLength).decodeToString().toInt()
             val body = arr.copyOfRange(4 + lengthOfBodyLength, 4 + lengthOfBodyLength + bodyLength)
+            return BStream(body)
+        }
+
+        fun deserialize(bais: ByteArrayInputStream): BStream
+        {
+            val lengthOfBodyLength = bais.readNBytes(4).decodeToString().toInt()
+            val bodyLength = bais.readNBytes(lengthOfBodyLength).decodeToString().toInt()
+            val body = bais.readNBytes(bodyLength)
             return BStream(body)
         }
     }
