@@ -6,51 +6,33 @@ data class BStream(var arr: ByteArray) : IB<BStream>
 {
     override fun type(): Char = 'b'
 
-    override fun deserialize(byteArray: ByteArray): BStream = BStream.deserialize(byteArray)
+    override fun deserialize(bytes: ByteArray): BStream = BStream.deserialize(bytes)
 
     override fun serialize(): ByteArray
     {
-        val lengthOfBodyLength = "0010".toByteArray()
-        val body = arr
-        val bodyLength = body.size.toString().padStart(10, '0').toByteArray()
-        return lengthOfBodyLength + bodyLength + body
+        val bodyLength = arr.size.toString().toByteArray()
+        val lengthOfBodyLength = bodyLength.size.toByte()
+        return byteArrayOf(lengthOfBodyLength) + bodyLength + arr
     }
 
-    override fun serSize(): Int = 4 + 10 + arr.size
+    override fun serSize(): Int = 1 + arr.size.toString().toByteArray().size + arr.size
 
     companion object
     {
-        fun deserialize(arr: ByteArray): BStream
+        fun deserialize(bytes: ByteArray): BStream
         {
-            val lengthOfBodyLength = arr.copyOfRange(0, 4).decodeToString().toInt()
-            val bodyLength = arr.copyOfRange(4, 4 + lengthOfBodyLength).decodeToString().toInt()
-            val body = arr.copyOfRange(4 + lengthOfBodyLength, 4 + lengthOfBodyLength + bodyLength)
+            val lengthOfBodyLength = bytes[0]
+            val bodyLength = bytes.copyOfRange(1, lengthOfBodyLength.toInt()).decodeToString().toInt()
+            val body = bytes.copyOfRange(lengthOfBodyLength.toInt(), bodyLength)
             return BStream(body)
         }
 
         fun deserialize(bais: ByteArrayInputStream): BStream
         {
-            val lengthOfBodyLength = bais.readNBytes(4).decodeToString().toInt()
-            val bodyLength = bais.readNBytes(lengthOfBodyLength).decodeToString().toInt()
+            val lengthOfBodyLength = bais.readNBytes(1)[0]
+            val bodyLength = bais.readNBytes(lengthOfBodyLength.toInt()).decodeToString().toInt()
             val body = bais.readNBytes(bodyLength)
             return BStream(body)
         }
-    }
-
-    override fun equals(other: Any?): Boolean
-    {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as BStream
-
-        if (!arr.contentEquals(other.arr)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int
-    {
-        return arr.contentHashCode()
     }
 }

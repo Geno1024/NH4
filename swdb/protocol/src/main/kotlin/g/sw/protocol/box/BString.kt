@@ -1,44 +1,45 @@
 package g.sw.protocol.box
 
 import java.io.ByteArrayInputStream
+import kotlin.math.ceil
+import kotlin.math.log10
 
 data class BString(var str: String = "") : CharSequence, IB<BString>
 {
     override fun type(): Char = 's'
 
-    override fun deserialize(byteArray: ByteArray): BString = BString.deserialize(byteArray)
+    override fun deserialize(bytes: ByteArray): BString = BString.deserialize(bytes)
 
     override fun serialize(): ByteArray
     {
-        val lengthOfBodyLength = "0010".toByteArray()
         val body = str.toByteArray()
-        val bodyLength = body.size.toString().padStart(10, '0').toByteArray()
-        return lengthOfBodyLength + bodyLength + body
+        val bodyLength = body.size.toString().toByteArray()
+        val lengthOfBodyLength = bodyLength.size.toByte()
+        return byteArrayOf(lengthOfBodyLength) + bodyLength + body
     }
 
-    override fun serSize(): Int = 4 + 10 + length
+    override fun serSize(): Int = 1 + ceil(log10(length.toDouble())).toInt() + length
 
-    override val length: Int
-        get() = str.length
+    override val length: Int = str.length
 
-    override fun get(index: Int): Char = str[index]
+    override operator fun get(index: Int): Char = str[index]
 
     override fun subSequence(startIndex: Int, endIndex: Int): CharSequence = str.subSequence(startIndex, endIndex)
 
     companion object
     {
-        fun deserialize(byteArray: ByteArray): BString
+        fun deserialize(bytes: ByteArray): BString
         {
-            val lengthOfBodyLength = byteArray.copyOfRange(0, 4).decodeToString().toInt()
-            val bodyLength = byteArray.copyOfRange(4, 4 + lengthOfBodyLength).decodeToString().toInt()
-            val body = byteArray.copyOfRange(4 + lengthOfBodyLength, 4 + lengthOfBodyLength + bodyLength).decodeToString()
+            val lengthOfBodyLength = bytes[0]
+            val bodyLength = bytes.copyOfRange(1, lengthOfBodyLength.toInt()).decodeToString().toInt()
+            val body = bytes.copyOfRange(lengthOfBodyLength.toInt(), bodyLength).decodeToString()
             return BString(body)
         }
 
         fun deserialize(bais: ByteArrayInputStream): BString
         {
-            val lengthOfBodyLength = bais.readNBytes(4).decodeToString().toInt()
-            val bodyLength = bais.readNBytes(lengthOfBodyLength).decodeToString().toInt()
+            val lengthOfBodyLength = bais.readNBytes(1)[0]
+            val bodyLength = bais.readNBytes(lengthOfBodyLength.toInt()).decodeToString().toInt()
             val body = bais.readNBytes(bodyLength).decodeToString()
             return BString(body)
         }
