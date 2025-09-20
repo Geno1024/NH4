@@ -8,7 +8,7 @@ interface IDS
     fun toMap(): Map<String, IB<*>> = javaClass.declaredFields
         .filterNot { it.name == "Companion" }
         .associate { field ->
-            field.name to field.apply { isAccessible = true }.get(this) as IB<*>
+            field.name to field.apply{ isAccessible = true }.get(this) as IB<*>
         }
 
     companion object
@@ -23,7 +23,7 @@ interface IDS
             )
         }
 
-        inline fun <reified T : IDS> fromMap(value: Map<String, IB<*>>): T = with(T::class.constructors.first {
+        inline fun <reified T : IDS> fromMap(value: Map<String, IB<*>>): T = with (T::class.constructors.first {
             it.name == "<init>"
         }) {
             call(
