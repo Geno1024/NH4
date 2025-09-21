@@ -14,10 +14,10 @@ data class BNumber(var num: BigDecimal) : Number(), IB<BNumber>
         val body = num.toPlainString().toByteArray()
         val bodyLength = body.size.toString().toByteArray()
         val lengthOfBodyLength = bodyLength.size.toByte()
-        return byteArrayOf(lengthOfBodyLength) + bodyLength + body
+        return byteArrayOf(0x6e, lengthOfBodyLength) + bodyLength + body
     }
 
-    override fun serSize(): Int = 1 + (num.toPlainString().toByteArray().size.toString().toByteArray().size.toByte()) + num.toPlainString().toByteArray().size
+    override fun serSize(): Int = 2 + (num.toPlainString().toByteArray().size.toString().toByteArray().size.toByte()) + num.toPlainString().toByteArray().size
 
     override fun toByte(): Byte = num.toByte()
     override fun toDouble(): Double = num.toDouble()
@@ -30,14 +30,15 @@ data class BNumber(var num: BigDecimal) : Number(), IB<BNumber>
     {
         fun deserialize(bytes: ByteArray): BNumber
         {
-            val lengthOfBodyLength = bytes[0]
-            val bodyLength = bytes.copyOfRange(1, lengthOfBodyLength.toInt()).decodeToString().toInt()
-            val body = bytes.copyOfRange(lengthOfBodyLength.toInt(), bodyLength).decodeToString().toBigDecimal()
+            val lengthOfBodyLength = bytes[1]
+            val bodyLength = bytes.copyOfRange(2, 1 + lengthOfBodyLength.toInt()).decodeToString().toInt()
+            val body = bytes.copyOfRange(1 + lengthOfBodyLength.toInt(), 1 + bodyLength).decodeToString().toBigDecimal()
             return BNumber(body)
         }
 
         fun deserialize(bais: ByteArrayInputStream): BNumber
         {
+            bais.skip(1)
             val lengthOfBodyLength = bais.readNBytes(1)[0]
             val bodyLength = bais.readNBytes(lengthOfBodyLength.toInt()).decodeToString().toInt()
             val body = bais.readNBytes(bodyLength).decodeToString().toBigDecimal()

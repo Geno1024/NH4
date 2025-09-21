@@ -15,10 +15,10 @@ data class BString(var str: String = "") : CharSequence, IB<BString>
         val body = str.toByteArray()
         val bodyLength = body.size.toString().toByteArray()
         val lengthOfBodyLength = bodyLength.size.toByte()
-        return byteArrayOf(lengthOfBodyLength) + bodyLength + body
+        return byteArrayOf(0x73, lengthOfBodyLength) + bodyLength + body
     }
 
-    override fun serSize(): Int = 1 + ceil(log10(length.toDouble())).toInt() + length
+    override fun serSize(): Int = 2 + ceil(log10(length.toDouble())).toInt() + length
 
     override val length: Int = str.length
 
@@ -30,14 +30,15 @@ data class BString(var str: String = "") : CharSequence, IB<BString>
     {
         fun deserialize(bytes: ByteArray): BString
         {
-            val lengthOfBodyLength = bytes[0]
-            val bodyLength = bytes.copyOfRange(1, lengthOfBodyLength.toInt()).decodeToString().toInt()
-            val body = bytes.copyOfRange(lengthOfBodyLength.toInt(), bodyLength).decodeToString()
+            val lengthOfBodyLength = bytes[1]
+            val bodyLength = bytes.copyOfRange(2, 1 + lengthOfBodyLength.toInt()).decodeToString().toInt()
+            val body = bytes.copyOfRange(1 + lengthOfBodyLength.toInt(), 1 + bodyLength).decodeToString()
             return BString(body)
         }
 
         fun deserialize(bais: ByteArrayInputStream): BString
         {
+            bais.skip(1)
             val lengthOfBodyLength = bais.readNBytes(1)[0]
             val bodyLength = bais.readNBytes(lengthOfBodyLength.toInt()).decodeToString().toInt()
             val body = bais.readNBytes(bodyLength).decodeToString()
