@@ -30,8 +30,8 @@ data class BStream(var arr: ByteArray) : IB<BStream>
         fun deserialize(bais: ByteArrayInputStream): BStream
         {
             bais.skip(1)
-            val lengthOfBodyLength = bais.readNBytes(1)[0]
-            val bodyLength = bais.readNBytes(lengthOfBodyLength.toInt()).decodeToString().toInt()
+            val lengthOfBodyLength = bais.read()
+            val bodyLength = bais.readNBytes(lengthOfBodyLength).decodeToString().toInt()
             val body = bais.readNBytes(bodyLength)
             return BStream(body)
         }
