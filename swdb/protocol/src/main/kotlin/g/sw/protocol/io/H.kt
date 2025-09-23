@@ -32,7 +32,7 @@ class H : IO
                 's' -> BString(valueBody.decodeToString())
                 'n' -> BNumber(valueBody.decodeToString().toBigDecimal())
                 'b' -> BStream(valueBody)
-                else -> TODO()
+                else -> throw _root_ide_package_.kotlin.IllegalArgumentException("Type $typeOfValue not found")
             }
             ids[key] = value
             read += 3 + lengthOfKeyLength + keyLength + lengthOfValueLength + valueLength
