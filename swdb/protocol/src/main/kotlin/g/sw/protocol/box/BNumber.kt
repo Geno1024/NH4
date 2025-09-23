@@ -3,7 +3,7 @@ package g.sw.protocol.box
 import java.io.ByteArrayInputStream
 import java.math.BigDecimal
 
-data class BNumber(var num: BigDecimal) : Number(), IB<BNumber>
+data class BNumber(var num: BigDecimal = BigDecimal.ZERO) : Number(), IB<BNumber>
 {
     override fun type(): Char = 'n'
 

@@ -2,7 +2,7 @@ package g.sw.protocol.box
 
 import java.io.ByteArrayInputStream
 
-data class BStream(var arr: ByteArray) : IB<BStream>
+data class BStream(var arr: ByteArray = ByteArray(0)) : IB<BStream>
 {
     override fun type(): Char = 'b'
 
