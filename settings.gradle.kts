@@ -19,6 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
+include(":swdb:dbop")
 include(":swdb:planet:android")
 include(":swdb:protocol")
 include(":swdb:star")
